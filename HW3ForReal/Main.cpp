@@ -14,7 +14,7 @@ int main() {
 	}
 
 	//Create PhoneHash object
-	PhoneHash H;
+	PhoneHash H(infile);
 
 	//Create Output.txt
 	ofstream outfile("output.csv");

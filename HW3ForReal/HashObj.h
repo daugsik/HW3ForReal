@@ -1,5 +1,5 @@
 #pragma once
-#pragma once
+
 #include <fstream>
 #include <string>
 #include <vector>
@@ -11,12 +11,13 @@ class PhoneHash
 {
 public:
 	PhoneHash();
+	PhoneHash(ifstream& fromFile);
 	~PhoneHash();
 	void buildHash(ifstream& fromFile);
 	void hashMapStats(ofstream& toFile) const;
 
 private:
-	int size = MAP_SIZE;
+	int size;
 	struct DataNode
 	{
 		string firstName;

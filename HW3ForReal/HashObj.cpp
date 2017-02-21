@@ -1,4 +1,3 @@
-#pragma once
 #include "HashObj.h"
 
 /*
@@ -7,7 +6,13 @@ Public Functions
 
 PhoneHash::PhoneHash()
 {
+	size = MAP_SIZE;
+}
 
+PhoneHash::PhoneHash(ifstream& fromFile)
+{
+	size = MAP_SIZE;
+	buildHash(fromFile);
 }
 
 PhoneHash::~PhoneHash()
@@ -96,7 +101,7 @@ void PhoneHash::hashMapStats(ofstream& toFile) const
 
 	for (int i = 0; i < MAP_SIZE; i++)
 	{
-		toFile << i << "," << PhoneHashMap[i].size() << endl;
+		toFile << PhoneHashMap[i].size() << endl;
 		if (PhoneHashMap[i].size() == 0) { emptyCellCount++; }
 	}
 
@@ -137,6 +142,7 @@ void PhoneHash::createNode(const string& first, const string& last, const int& a
 	temp->lastFour = four;
 
 	insertNode(*temp);
+	delete temp;
 }
 
 /*
@@ -155,10 +161,7 @@ The hashing function.
 */
 int PhoneHash::hashPlacement(const DataNode& toInsert)
 {
-	
-	return ((toInsert.firstThree * 10000 + toInsert.lastFour) % MAP_SIZE);
-	
-	/*
+
 	int result = 0;
 	result += lastNameBits(toInsert.lastName.at(0));
 
@@ -175,7 +178,6 @@ int PhoneHash::hashPlacement(const DataNode& toInsert)
 	result += toInsert.areaCode % 2;
 
 	return ( result % MAP_SIZE );
-	*/
 }
 
 /*

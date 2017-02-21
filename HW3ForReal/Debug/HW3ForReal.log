@@ -1,3 +1,4 @@
 ﻿  HashObj.cpp
+d:\libraries\documents\vs2015\hw3forreal\hw3forreal\hashobj.cpp(208): warning C4715: 'PhoneHash::lastNameBits': not all control paths return a value
   HW3ForReal.vcxproj -> D:\Libraries\Documents\VS2015\HW3ForReal\Debug\HW3ForReal.exe
   HW3ForReal.vcxproj -> D:\Libraries\Documents\VS2015\HW3ForReal\Debug\HW3ForReal.pdb (Partial PDB)

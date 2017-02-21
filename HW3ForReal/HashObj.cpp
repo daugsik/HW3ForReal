@@ -88,7 +88,7 @@ void PhoneHash::buildHelper(const string& data)
 /*
 hashMapStats reads out the size for every cell of the hash table.
 */
-void PhoneHash::hashMapStats() const
+void PhoneHash::hashMapStats(ofstream& toFile) const
 {
 	//counter for empty cells
 	int emptyCellCount = 0;
@@ -96,7 +96,7 @@ void PhoneHash::hashMapStats() const
 
 	for (int i = 0; i < MAP_SIZE; i++)
 	{
-		//cout << "Cell " << i << " count: " << PhoneHashMap[i].size() << endl;
+		toFile << i << "," << PhoneHashMap[i].size() << endl;
 		if (PhoneHashMap[i].size() == 0) { emptyCellCount++; }
 	}
 
@@ -155,10 +155,65 @@ The hashing function.
 */
 int PhoneHash::hashPlacement(const DataNode& toInsert)
 {
-	int whole = (toInsert.firstThree * 10000 + toInsert.lastFour);
-	int result = (toInsert.firstThree + toInsert.lastFour) + whole;
+	
+	return ((toInsert.firstThree * 10000 + toInsert.lastFour) % MAP_SIZE);
+	
+	/*
+	int result = 0;
+	result += lastNameBits(toInsert.lastName.at(0));
 
-	return ( result % MAP_SIZE);
+	result = result << 4;	// shifts by 3-digits size
+	result += toInsert.firstThree - 423;
+
+	result = result << 4;	// shifts by 4-digits size
+	result += ((toInsert.lastFour - 2234) / 11);
+
+	result = result << 5;	// shifts by First Letter size
+	result += firstNameBits(toInsert.firstName.at(0));
+
+	result = result << 1;	// shifts by Area Code size
+	result += toInsert.areaCode % 2;
+
+	return ( result % MAP_SIZE );
+	*/
+}
+
+/*
+	Special converter to return an integer associated with a char.
+	Assumes input is a capital letter.
+*/
+int PhoneHash::lastNameBits(const char& toConvert)
+{
+	switch (toConvert)
+	{
+		case 'A':
+			return 0;
+		case 'B':
+			return 1;
+		case 'E':
+			return 2;
+		case 'G':
+			return 3;
+		case 'J':
+			return 4;
+		case 'L':
+			return 5;
+		case 'S':
+			return 6;
+		case 'T':
+			return 7;
+		case 'Z':
+			return 8;
+	}
+}
+
+/*
+	Converts first letter of First Name to integer. Assumes input is a
+	capital letter.
+*/
+int PhoneHash::firstNameBits(const char& toConvert)
+{
+	return(toConvert - 'A');
 }
 
 /*

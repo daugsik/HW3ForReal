@@ -13,7 +13,7 @@ public:
 	PhoneHash();
 	~PhoneHash();
 	void buildHash(ifstream& fromFile);
-	void hashMapStats() const;
+	void hashMapStats(ofstream& toFile) const;
 
 private:
 	int size = MAP_SIZE;
@@ -31,5 +31,7 @@ private:
 	void createNode(const string& first, const string& last, const int& area, const int& three, const int& four);
 	void insertNode(DataNode& toInsert);
 	int hashPlacement(const DataNode& toInsert);
-	void PhoneHash::buildHelper(const string& data);
+	void buildHelper(const string& data);
+	int lastNameBits(const char& toConvert);
+	int firstNameBits(const char& toConvert);
 };

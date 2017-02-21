@@ -16,10 +16,13 @@ int main() {
 	//Create PhoneHash object
 	PhoneHash H;
 
+	//Create Output.txt
+	ofstream outfile("output.csv");
+
 	//Build the Hashmap
 
 	H.buildHash(infile);
-	H.hashMapStats();
+	H.hashMapStats(outfile);
 
 	infile.close();
 	return 0;

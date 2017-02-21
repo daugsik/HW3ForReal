@@ -90,11 +90,18 @@ hashMapStats reads out the size for every cell of the hash table.
 */
 void PhoneHash::hashMapStats() const
 {
+	//counter for empty cells
+	int emptyCellCount = 0;
+
 	for (int i = 0; i < MAP_SIZE; i++)
 	{
-		cout << "Cell " << i << ": " << endl;
-		cout << "\tCount: " << PhoneHashMap[i].size() << endl;
+		cout << "Cell " << i << " count: " << PhoneHashMap[i].size() << endl;
+		if (PhoneHashMap[i].size() == 0) { emptyCellCount++; }
+		if (i == 32 || i == 65) { cout << endl; }
 	}
+
+	cout << endl;
+	cout << "Filled Cells Ratio: " << 1 - emptyCellCount/float(MAP_SIZE) << endl;
 }
 
 /*
@@ -139,16 +146,40 @@ void PhoneHash::insertNode(DataNode& toInsert)
 	PhoneHashMap[hashPlacement(toInsert)].push_back(toInsert);
 }
 
+
 /*
 The hashing function.
 */
 int PhoneHash::hashPlacement(const DataNode& toInsert)
 {
+	int item = toInsert.lastFour % 503;
+	int hemisphere = 1 + (toInsert.areaCode % 2);
+	int combination = hemisphere * (toInsert.firstThree + item);
+
+	return ((item + combination) % 97);
+}
+
+/*
+	HASH FUNCTION GRAVEYARD
+
+	ITERATION 1################################
+	int item = toInsert.lastFour % 97;
+	return item;
+	
+
+	ITERATION 2################################
 	int result = 0;
 	int power = (toInsert.firstThree) % 5;
-	int item = (toInsert.lastFour) % 1000;
+	int item = (toInsert.lastFour) % 503;
 	int section = 1 + ((toInsert.areaCode) % 2);
 
 	result = ((item ^ power) / section) % 97;
 	return result;
-}
+
+	ITERATION 3################################
+	int quadrant = 1 + (toInsert.firstThree % 4);
+	int item = toInsert.lastFour % 100;
+	return (((quadrant * 25) + item) % 97);
+	
+
+*/

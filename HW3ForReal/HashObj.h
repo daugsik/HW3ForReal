@@ -3,7 +3,8 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#define MAP_SIZE 97
+#include <iostream>
+#define MAP_SIZE 4177
 using namespace std;
 
 class PhoneHash

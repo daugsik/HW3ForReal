@@ -1,6 +1,5 @@
 #pragma once
 #include "HashObj.h"
-#include <iostream>
 
 /*
 Public Functions
@@ -15,6 +14,7 @@ PhoneHash::~PhoneHash()
 {
 
 }
+
 
 /*
 buildHash recieves an infile stream fromFile and pulls out lines
@@ -93,16 +93,19 @@ void PhoneHash::hashMapStats() const
 	//counter for empty cells
 	int emptyCellCount = 0;
 
+
 	for (int i = 0; i < MAP_SIZE; i++)
 	{
-		cout << "Cell " << i << " count: " << PhoneHashMap[i].size() << endl;
+		//cout << "Cell " << i << " count: " << PhoneHashMap[i].size() << endl;
 		if (PhoneHashMap[i].size() == 0) { emptyCellCount++; }
-		if (i == 32 || i == 65) { cout << endl; }
 	}
 
 	cout << endl;
+	cout << "Empty Cells: " << emptyCellCount << endl;
+	cout << "Filled Cells: " << MAP_SIZE - emptyCellCount << endl;
 	cout << "Filled Cells Ratio: " << 1 - emptyCellCount/float(MAP_SIZE) << endl;
 }
+
 
 /*
 #########################################
@@ -152,11 +155,10 @@ The hashing function.
 */
 int PhoneHash::hashPlacement(const DataNode& toInsert)
 {
-	int item = toInsert.lastFour % 503;
-	int hemisphere = 1 + (toInsert.areaCode % 2);
-	int combination = hemisphere * (toInsert.firstThree + item);
+	int whole = (toInsert.firstThree * 10000 + toInsert.lastFour);
+	int result = (toInsert.firstThree + toInsert.lastFour) + whole;
 
-	return ((item + combination) % 97);
+	return ( result % MAP_SIZE);
 }
 
 /*
